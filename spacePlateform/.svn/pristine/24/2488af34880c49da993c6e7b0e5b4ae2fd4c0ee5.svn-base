@@ -1,0 +1,25 @@
+package com.bigdataB.space.service;
+
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bigdataB.space.dto.MemberDTO;
+
+@Service
+public class LoginMapper {
+	@Autowired
+	private SqlSession sqlSession;
+	
+	public int emailCheck(MemberDTO dto) {
+		return sqlSession.selectOne("emailCheck",dto);
+	}
+	
+	public int insertMember(MemberDTO dto) {
+		return sqlSession.insert("insertMember", dto);
+	}
+	public MemberDTO getMember(String member_email) {
+		return sqlSession.selectOne("getMember", member_email);
+	}
+}

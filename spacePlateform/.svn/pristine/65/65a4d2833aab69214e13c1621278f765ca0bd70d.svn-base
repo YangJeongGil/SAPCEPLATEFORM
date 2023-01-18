@@ -1,0 +1,62 @@
+package com.bigdataB.space.service;
+
+import java.util.*;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bigdataB.space.dto.SpaceRoomDTO;
+
+@Service
+public class SpaceRoomMapper {
+
+	@Autowired
+	private SqlSession sqlSession;
+	
+	
+	public List<SpaceRoomDTO>listRoom(int start, int end){
+		Map<String, Integer>map=new Hashtable<>();
+		map.put("start", start);
+		map.put("end",end);
+		return sqlSession.selectList("listRoom",map);
+	}
+	
+	public  int insertRoom(SpaceRoomDTO srdto){
+		String sql=null;
+		if(srdto.getRoom_no()==0) {
+			sql="update space_room set re_step=re_step+1";
+		}else {
+			sql="update space_room set re_step=re_step+1 where re_step"+srdto.getRe_step();
+			srdto.setRe_step(srdto.getRe_step()+1);
+			srdto.setRe_level(srdto.getRe_level()+1);
+		}
+		Map<String, String> map = new Hashtable<>();
+		System.out.println(sql);
+		map.put("sql",sql);
+		System.out.println(map);
+		sqlSession.update("plusRe_step",map);
+		sqlSession.commit();
+		return sqlSession.insert("insertRoom",srdto);
+	}
+	/*
+	public int updateRoom(SpaceRoomDTO srdto, MemberDTO mdto) {
+		SpaceRoomDTO srdto2 =getRoom(srdto.getRoom_no(),"member_pw");
+		if(mdto.getMember_pw().equals(srdto2.getMember_pw())) {
+			sqlSession.commit();
+			return sqlSession.update("updateRoom", srdto);
+		}else {
+		return -1;
+		}
+	}
+	*/
+	public int getCount() {
+		return sqlSession.selectOne("getCount");
+	}
+	
+	public SpaceRoomDTO getRoom(int room_no) {
+		return sqlSession.selectOne("getRoom", room_no);
+	}
+	
+	
+}

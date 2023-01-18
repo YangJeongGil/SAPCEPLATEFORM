@@ -1,0 +1,40 @@
+package com.bigdataB.space.service;
+
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bigdataB.space.dto.MemberDTO;
+import com.bigdataB.space.dto.SpaceTypeDTO;
+
+
+
+@Service
+public class AdminMapper {
+	@Autowired
+	private SqlSession sqlSession;
+	
+	public int getCount() {
+		return sqlSession.selectOne("getCount");
+	}
+	
+	public List<SpaceTypeDTO> listCate(){
+		return sqlSession.selectList("listCate");
+	}
+	
+	public List<MemberDTO> listGuest(String sort){
+		System.out.println(sort+"2222");
+		return sqlSession.selectList("listGuest",sort);
+	}
+	
+	public int insertCate(SpaceTypeDTO dto) {
+		return sqlSession.insert("insertCate",dto); 
+	}
+	
+	public List<MemberDTO> listHost(){
+		return sqlSession.selectList("listHost");
+	}
+	
+}

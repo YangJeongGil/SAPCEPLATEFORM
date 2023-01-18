@@ -1,0 +1,20 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!-- top.jsp -->
+<html>
+<head>
+
+<link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" >
+  </head>
+  <body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal"><a  href="index.do">공간 프로젝트</a></h5>
+  <nav class="my-2 my-md-0 mr-md-3">
+    <a class="p-2 text-dark" href="g_reserve_list.do">예약정보</a>
+    <a class="p-2 text-dark" href="g_my_info.do">내정보</a>
+    <a class="p-2 text-dark" href="HostHome.do">호스트 홈</a>
+  </nav>
+  <a class="btn btn-outline-primary" href="Signin.do">Sign up</a>
+</div>
+</body>
+</html>

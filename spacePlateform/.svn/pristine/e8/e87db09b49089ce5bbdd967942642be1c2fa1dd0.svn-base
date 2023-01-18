@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 	<!-- 테이블 명 변경 해야함
+ 		 test2 = category
+ 		 membertest = member
+ 		  -->
+<mapper namespace="com.test.uk2.mapper.adminMapper">
+	<select id="listCate" resultType="spaceTypeDTO">
+		select * from space_type
+	</select> 
+	
+	<insert id="insertCate" parameterType="spaceTypeDTO">
+		insert into space_type values(seq_space_type.nextval, #{cate_nm}, #{cate_img}, 0)
+	</insert>
+	
+	<select id="listGuest" resultType="memberDTO">
+		select * from member where member_grade = 0
+	</select>
+	
+	<select id="listHost" resultType="memberDTO">
+		select * from member where member_grade = 1
+	</select>
+	
+	<select id="listSpaceRoom" resultType="spaceRoomDTO">
+		select * from space_room
+	</select>
+	
+	<select id="listReserve" resultType="reserveDTO">
+		select * from reserve
+	</select>
+</mapper>

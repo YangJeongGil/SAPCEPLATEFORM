@@ -1,0 +1,188 @@
+package com.bigdataB.space;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.bigdataB.space.dto.SpaceRoomDTO;
+import com.bigdataB.space.service.SpaceRoomMapper;
+
+
+@Controller
+public class SpaceRoomController {
+	@Autowired
+	private SpaceRoomMapper spaceRoomMapper;
+	
+	@RequestMapping(value="/", method=RequestMethod.GET) public String main() {
+		  return "main"; 
+	}
+	 
+	
+	@RequestMapping(value="/room_list.do")
+	public String listRoom(HttpServletRequest req, @RequestParam(required=false)String pageNum) {
+		if (pageNum == null) {
+			pageNum = "1";
+		}
+		int currentPage = Integer.parseInt(pageNum);
+		int pageSize = 5;
+		int startRow = (currentPage-1) * pageSize + 1;
+		int endRow = startRow + pageSize - 1;
+		int countRow = spaceRoomMapper.getCount();
+		if (endRow > countRow) endRow = countRow;
+		
+		List<SpaceRoomDTO> srlist = spaceRoomMapper.listRoom(startRow,endRow);
+		int room_no = countRow - (startRow - 1);
+		req.setAttribute("listRoom",srlist);
+		req.setAttribute("room_no", room_no);
+		int pageCount = countRow / pageSize + (countRow%pageSize==0 ? 0 : 1); 
+		int pageBlock = 3;
+		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+		int endPage = startPage + pageBlock - 1;
+		if (endPage > pageCount) endPage = pageCount;		
+		req.setAttribute("pageCount", pageCount);
+		req.setAttribute("pageBlock", pageBlock);
+		req.setAttribute("startPage", startPage);
+		req.setAttribute("endPage", endPage);
+		return "room/room_list";	
+	}
+	
+	@GetMapping("/room_input.do")
+	public String room_Input() {
+		return "room/room_input";
+	}
+	
+	@PostMapping("/room_input.do")
+	public String room_InputPro(@RequestParam Map<String, MultipartFile>map, HttpServletRequest req, @ModelAttribute SpaceRoomDTO srdto, BindingResult result) {
+		if(result.hasErrors()) {
+			srdto.setRoom_img("");
+		}
+		
+		MultipartHttpServletRequest mr =(MultipartHttpServletRequest)req;
+		MultipartFile mf =mr.getFile("room_img");
+		String filename =mf.getOriginalFilename();
+		if(filename ==null||filename.trim().equals("")) {
+			req.setAttribute("msg","이미지를 입력해주세요!!");
+			req.setAttribute("url","room_input.do");
+			return "/message";
+		}
+		
+		HttpSession session = req.getSession();
+		String upPath = session.getServletContext().getRealPath("/resources/img");
+		File target = new File(upPath, mf.getOriginalFilename());
+		try {
+			mf.transferTo(target);
+		}catch(IOException e) {
+			e.printStackTrace();
+			req.setAttribute("msg", "이미지 업로드시 오류발생. 다시입력해주세요.");
+			req.setAttribute("url", "room_input.do");
+			return "/message";
+		}
+		session.setAttribute("upPath", upPath);
+		srdto.setRoom_img(filename);
+		
+		if(result.hasErrors()) {
+			srdto.setRoom_no(0);
+		}
+		int res =spaceRoomMapper.insertRoom(srdto);
+		if(res>0) {
+			req.setAttribute("msg","방등록 성공, 방관리목록페이지로 이동합니다.");
+			req.setAttribute("url","room_list.do");
+		}else {
+			req.setAttribute("msg","방등록 실패. 방 등록 페이지로 이동합니다.");
+			req.setAttribute("url","room_input.do");
+		}
+		return "/message";
+	}
+	
+	@GetMapping(value="/room_update.do")
+	public String room_update(HttpServletRequest req, @RequestParam int room_no){
+		SpaceRoomDTO srdto =spaceRoomMapper.getRoom(room_no);
+		req.setAttribute("getRoom",srdto);
+		HttpSession session = req.getSession();
+		String upPath =session.getServletContext().getRealPath("/resources/img");
+		req.setAttribute("upPath", upPath);
+		return "room/room_update";
+	}
+	
+	@PostMapping(value="/room_update.do")
+	public String room_updatePro(HttpServletRequest req,
+									@ModelAttribute SpaceRoomDTO srdto, BindingResult result) {
+		if(result.hasErrors()) {
+			srdto.setRoom_img("");
+		}
+		MultipartHttpServletRequest mr = (MultipartHttpServletRequest)req;
+		MultipartFile mf = mr.getFile("room_img");
+		String filename = mf.getOriginalFilename();
+		if (filename == null || filename.trim().equals("")) {
+			srdto.setRoom_img(req.getParameter("room_img2"));
+		}else {
+			HttpSession session = req.getSession();
+			String upPath = session.getServletContext().getRealPath("/resources/img");
+			File target = new File(upPath, filename);
+			try {
+				mf.transferTo(target);
+			}catch(IOException e) {
+				req.setAttribute("msg", "이미지 업로드시 오류발생. 다시 입력 해주세요");
+				req.setAttribute("url", "room_input.do");
+				return "/message";
+			}
+			srdto.setRoom_img(mf.getOriginalFilename());
+		}
+		
+		int res= spaceRoomMapper.updateRoom(srdto);
+		if(res>0) {
+		req.setAttribute("msg","방정보 수정 성공! 방관리 리스트로 이동합니다.");
+		req.setAttribute("url","room_list.do");
+
+		}else if(res==0){
+		req.setAttribute("msg", "방정보 수정 실패! 예약 상세페이지로 이동합니다.");
+		req.setAttribute("url", "reserve_room_view.do?room_no="+srdto.getRoom_no());
+		}else {
+		req.setAttribute("msg", "비밀번호가 틀렸습니다. 다시입력해주세요");
+		req.setAttribute("url", "update_room.do?room_no="+srdto.getRoom_no());
+		}
+		return "/message";
+		}
+		
+
+	@RequestMapping("/room_delete.do")
+	public String deleteRoom(HttpServletRequest req, @RequestParam Map<String,String> map) {
+		int res = spaceRoomMapper.deleteRoom(Integer.parseInt(map.get("room_no")));
+		if (res > 0) {
+			HttpSession session = req.getSession();
+			String upPath = (String) session.getAttribute("upPath");
+			File file = new File(upPath, map.get("room_img"));
+			if (file.exists()) {
+				file.delete();
+				req.setAttribute("msg", "방정보 삭제(이미지도 삭제) 성공!! 방 관리목록페이지로 이동합니다.");
+			} else {
+				req.setAttribute("msg", "방정보 삭제(이미지 삭제 실패) 성공!! 방 관리목록페이지로 이동합니다.");
+			}
+		} else {
+			req.setAttribute("msg", "삭제 실패!! 방 관리목록페이지로 이동합니다.");
+		}
+		req.setAttribute("url", "room_list.do");
+		return "/message";
+	}
+		
+}
+	
+	
+	
+

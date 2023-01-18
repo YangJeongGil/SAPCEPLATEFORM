@@ -1,0 +1,72 @@
+package com.bigdataB.space;
+
+import java.util.Locale;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+/**
+ * Handles requests for the application home page.
+ */
+@Controller
+public class GuestController {
+	
+	
+	
+	@RequestMapping(value="index.do")
+	public String main(){
+	return "main";
+	}
+	
+	@RequestMapping(value="main.do")
+		public String guest_main(){
+		return "guest/main";
+	}
+	@RequestMapping(value="guest_Info.do")
+	public String guest_info(){
+	return "guest/info";
+	}
+	@RequestMapping(value="workingonit.do")
+	public String workingonit(){
+	return "workingonit";
+	}
+	@RequestMapping(value="g_reserve_list.do")
+	public String g_reserve_list(){
+	return "guest/reserveList";
+	}
+	@RequestMapping(value="g_my_info.do")
+	public String g_my_info(){
+	return "guest/g_my_info";
+	}
+	@RequestMapping(value="HostHome.do")
+	public String HostHome(){
+	return "workingonit";
+	}
+	@RequestMapping(value="Signin.do")
+	public String Signin(){
+	return "workingonit";
+	}
+	@RequestMapping(value="categoryView.do")
+	public String categoryView(){
+	return "guest/categoryView";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}

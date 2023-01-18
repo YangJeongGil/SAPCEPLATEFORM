@@ -1,0 +1,29 @@
+$(document).ready(function() { // 제이쿼리 기본
+	$("button.day").click(function(){
+		var btn = $(this)[0];
+		
+		var btnClass = btn.getAttribute("class");
+		var btnClassArr = btnClass.split(" ");
+		var newv = "";
+		var v = btnClassArr[2];
+		if(v == "btn-secondary"){
+			newv = "btn-primary";
+		}else if(v == "btn-primary"){
+			newv = "btn-secondary";
+		}
+		btnClass = btnClass.replace(v, newv);
+		btn.setAttribute("class", btnClass);
+		console.log(btn[0]);
+		var btnVal = btn.getAttribute("value");
+		var newVal = (btnVal == 1 ? 0 : 1);
+		btn.setAttribute("value", newVal);
+		
+		var els = $("button.day");
+		var str = "";
+		
+		for(var i=0; i<els.length;i++){
+			str += els[i].value;
+		}
+		$("#room_week").val(str);
+	});
+})

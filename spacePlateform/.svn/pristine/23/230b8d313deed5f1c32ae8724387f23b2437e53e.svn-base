@@ -1,0 +1,66 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ include file="top.jsp"%>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>게스트정보 화면</title>
+    <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+<body>
+<div class="container-lg">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">no</th>
+      <th scope="col">방이름</th>
+      <th scope="col">사용목적</th>
+      <th scope="col">요청사항</th>
+      <th scope="col">결제상태</th>
+      <th scope="col">사용일</th>
+      <th scope="col">결제수단</th>
+      <th scope="col">취소요청</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td><a href="SPACE_ROOM_NO">space_nm</a></td>
+      <td>RES_PURPOSE</td>
+      <td>RES_REQ</td>
+      <td>PAY_ST</td>
+      <td>USE_DT</td>
+      <td>PAY_M</td>
+      <td>쥐소요청</td>      
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+	      <td>space_nm</td>
+	      <td>RES_PURPOSE</td>
+	      <td>RES_REQ</td>
+	      <td>PAY_ST</td>
+	      <td>USE_DT</td>
+	      <td>PAY_M</td>
+	      <td>쥐소요청</td>   
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+	      <td>space_nm</td>
+	      <td>RES_PURPOSE</td>
+	      <td>RES_REQ</td>
+	      <td>PAY_ST</td>
+	      <td>USE_DT</td>
+	      <td>PAY_M</td>
+	      <td>쥐소요청</td>   
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+<script src="resources/js/jquery.js" ></script>
+<script src="resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

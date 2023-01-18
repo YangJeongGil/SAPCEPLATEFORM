@@ -1,0 +1,108 @@
+package com.bigdataB.space;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.bigdataB.space.dto.SpaceDTO;
+import com.bigdataB.space.dto.SpaceRoomDTO;
+import com.bigdataB.space.dto.SpaceTypeDTO;
+import com.bigdataB.space.service.GuestMapper;
+
+
+/**
+ * Handles requests for the application home page.
+ */
+@Controller
+public class GuestController {
+
+	@Autowired
+	GuestMapper guestMapper;
+
+	@RequestMapping(value = "index.do")
+	public String main() {
+		return "main";
+	}
+	//guest메인화면
+	@RequestMapping(value = "/guest_main.do")
+	public String guest_main(HttpServletRequest req) {
+		List<SpaceTypeDTO> list = guestMapper.ListSpaceType();
+		req.setAttribute("listSpace", list);
+		req.removeAttribute("searchString");
+		return "guest/guest_main";
+	}
+	
+	@RequestMapping(value = "guest_reservelist.do")
+	public String g_reserve_list() {
+		return "guest/guest_reserveList";
+	}
+
+	@RequestMapping(value = "guest_my_info.do")
+	public String guest_my_info() {
+		return "guest/guest_my_info";
+	}
+
+	@RequestMapping(value = "HostHome.do")
+	public String HostHome() {
+		return "workingonit";
+	}
+
+	@RequestMapping(value = "Signin.do")
+	public String Signin() {
+		return "workingonit";
+	}
+
+	// guest_main에서 카테고리를 선택해서 넘어올 때
+	@RequestMapping(value = "guest_categoryView.do")
+	public String guest_categoryView(HttpServletRequest req, @RequestParam int cate_no) {
+		List<SpaceDTO> list = guestMapper.listCate(cate_no);
+		SpaceTypeDTO stdto = guestMapper.getCate(cate_no);
+		req.setAttribute("getSpace", list);
+		req.setAttribute("mode", stdto);
+		return "guest/guest_categoryView";
+	}
+	// top의 search를 통해서 넘어올 떄	
+	 @RequestMapping(value="search.do",method=RequestMethod.POST)
+	 public String searchList(HttpServletRequest req,@RequestParam String searchString) {
+		 String q = searchString;
+		 List<SpaceDTO> list = guestMapper.listCategory(q);
+		 req.setAttribute("getSpace", list);
+		 req.setAttribute("serch", q);
+	 return "guest/guest_categoryView";
+		 }
+	 
+
+	@RequestMapping(value = "guest_spaceview.do")
+	public String spaceview(HttpServletRequest req,@RequestParam int sn) {
+		int space_no = sn;
+		SpaceDTO sdto = guestMapper.getSpace(space_no);
+		List<SpaceRoomDTO> srlist = guestMapper.getSpaceRoom(space_no);
+		req.setAttribute("sp", sdto);
+		req.setAttribute("list", srlist);
+		return "guest/guest_spaceview";
+	}
+
+	@RequestMapping(value = "guest_reserve.do", method = RequestMethod.GET)
+	public String reserve() {
+		return "guest/guest_reserve";
+	}
+
+	@RequestMapping(value = "guest_reserve.do", method = RequestMethod.POST)
+	public String reserveinput(HttpServletRequest req, @RequestParam Map<String, String> map) {
+		int res = guestMapper.insertRrserve(map);
+		return "guest/guest_reserveList";
+	}
+
+	@RequestMapping(value = "workingonit.do")
+	public String workingonit() {
+		return "workingonit";
+	}
+
+}

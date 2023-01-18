@@ -1,0 +1,52 @@
+package com.bigdataB.space.service;
+
+import java.util.*;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bigdataB.space.dto.SpaceRoomDTO;
+
+@Service
+public class SpaceRoomMapper {
+
+	@Autowired
+	private SqlSession sqlSession;
+	
+	
+	public List<SpaceRoomDTO>listRoom(int start, int end){
+		Map<String, Integer>map=new Hashtable<>();
+		map.put("start", start);
+		map.put("end",end);
+		return sqlSession.selectList("listRoom",map);
+	}
+	
+	public  int insertRoom(SpaceRoomDTO srdto){
+		return sqlSession.insert("insertRoom",srdto);
+	}
+	
+	public int deleteRoom(int room_no) {
+		return sqlSession.delete("deleteRoom",room_no);
+	}
+	/*
+	public int updateRoom(SpaceRoomDTO srdto, MemberDTO mdto) {
+		SpaceRoomDTO srdto2 =getRoom(srdto.getRoom_no(),"member_pw");
+		if(mdto.getMember_pw().equals(srdto2.getMember_pw())) {
+			sqlSession.commit();
+			return sqlSession.update("updateRoom", srdto);
+		}else {
+		return -1;
+		}
+	}
+	*/
+	public int getCount() {
+		return sqlSession.selectOne("getCount");
+	}
+	
+	public SpaceRoomDTO getRoom(int room_no) {
+		return sqlSession.selectOne("getRoom", room_no);
+	}
+	
+	
+}

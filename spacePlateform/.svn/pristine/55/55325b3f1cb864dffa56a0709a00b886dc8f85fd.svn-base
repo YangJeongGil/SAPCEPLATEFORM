@@ -1,0 +1,100 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ <%@ include file="top.jsp"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>예약하기</title>
+ <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container-sm">
+
+
+<div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active" data-interval="3000">
+      <img src="resources/img/room-1.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item" data-interval="3000">
+      <img src="resources/img/room-2.jpg" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item" data-interval="3000">
+      <img src="resources/img/room-3.jpg" class="d-block w-100" alt="...">
+    </div>
+  </div>
+</div>
+<br><br>
+<div class="input-group mb-3 w-10">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">예약인원</span>
+  </div>
+  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+</div>
+
+<div class="input-group mb-3 w-10">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">예약자 명</span>
+  </div>
+  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+</div>
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">연락처</span>
+  </div>
+  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+</div>
+
+<div class="input-group mb-3 w-10">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">이메일</span>
+  </div>
+  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+</div>
+
+<div class="input-group mb-3 w-10">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">사용목적</span>
+  </div>
+  <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+</div>
+
+<div class="input-group w-10">
+  <div class="input-group-prepend">
+    <span class="input-group-text">요청사항</span>
+  </div>
+  <textarea class="form-control" aria-label="With textarea"></textarea>
+</div>
+<br>
+	<p>
+      <label for="date">대여 시작일</label>
+      <input type="date" id="date">
+      <label for="time">대여시작 시간</label>
+      <input type="time" id="time"> 
+    </p>
+    <p>
+      <label for="date">대여 종료일</label>
+      <input type="date" id="date">
+      <label for="time">대여종료 시간</label>
+      <input type="time" id="time">
+	</p>
+	<div align="center">
+   <a href="reserve.do" class="btn btn-primary text-wrap" style="width: auto;">
+ 		예약하기
+	</a>
+	<button type="button" class="btn btn-primary" style="width: auto;">취소</button>
+	</div>
+	
+</div>
+
+
+
+
+
+
+<script src="resources/js/jquery.js" ></script>
+<script src="resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

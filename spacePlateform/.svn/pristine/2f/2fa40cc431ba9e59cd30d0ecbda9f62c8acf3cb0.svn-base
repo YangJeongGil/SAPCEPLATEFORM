@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ 	
+ 	<mapper namespace="com.bigdataB.space.mapper.spaceRoomMapper">
+ 	
+ 	<select id="listRoom" parameterType="java.util.Map" resultType="spaceRoomDTO">
+	select *from space_room where room_no  between #{start} and #{end} order by room_no 
+
+ 	</select>
+ 	
+ 	<insert id="insertRoom" parameterType="spaceRoomDTO">
+ 	insert into space_room values(room_seq.nextval,#{room_nm},#{room_price},#{room_fit},
+ 									#{room_desc},#{room_img},sysdate,sysdate,#{room_st},0)
+ 									
+ 	</insert>
+
+
+	<update id="updateRoom" parameterType="spaceRoomDTO">
+	 update space_room set  room_nm=#{room_nm}, room_price=#{room_price},room_fit=#{room_fit},
+	 room_desc=#{room_desc},room_img=#{room_img}, room_date=#{room_date},  
+	 room_time=#{room_time}, where room_no=#{room_no}
+	 
+	</update>
+ 	
+ 	<delete id="deleteRoom" parameterType="int">
+		delete from space_room where room_no = #{room_no}
+	</delete>
+ 	
+	
+	<select id="getRoom" parameterType="int" resultType="spaceRoomDTO">
+	select *from space_room where room_no =#{room_no}
+	</select>
+	
+	<select id="getCount" resultType="Integer">
+		select count(*) from space_room
+	</select>
+	
+ 	</mapper>

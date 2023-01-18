@@ -1,0 +1,63 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ include file="top.jsp"%>
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>게스트 카테고리 뷰</title>
+    <link href="resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+<div class="container">
+    <div class="row">
+	 <div class="col-lg-6 col-md-7">
+    	   <div class="card" style="width: 30rem;">
+			 <a href="spaceview.do">
+			 <img src="resources/img/room-1.jpg" class="card-img-top" alt="...">
+		 		 <div class="card-body">
+			    <h5 class="card-title">ForEach돌릴꺼양</h5>
+			    <p class="card-text">ForEach돌릴꺼양</p>
+			    <button type="button" class="btn btn-primary">Go somewhere</button>
+			  </div>
+			  </a>
+			</div>
+    </div>
+	<div class="col-lg-6 col-md-7">
+    	   <div class="card" style="width: 30rem;">
+			 <img src="resources/img/room-2.jpg" class="card-img-top" alt="...">
+		 		 <div class="card-body">
+			    <h5 class="card-title">ForEach돌릴꺼양</h5>
+			    <p class="card-text">ForEach돌릴꺼양</p>
+			    <a href="#" class="btn btn-primary">Go somewhere</a>
+			  </div>
+			</div>
+    </div>
+	<div class="col-lg-6 col-md-7">
+    	   <div class="card" style="width: 30rem;">
+			 <img src="resources/img/room-3.jpg" class="card-img-top" alt="...">
+		 		 <div class="card-body">
+			    <h5 class="card-title">ForEach돌릴꺼양</h5>
+			    <p class="card-text">ForEach돌릴꺼양</p>
+			    <a href="#" class="btn btn-primary">Go somewhere</a>
+			  </div>
+			</div>
+    </div>
+    	 <div class="col-lg-6 col-md-7">
+    	   <div class="card" style="width: 30rem;">
+			 <img src="resources/img/room-4.jpg" class="card-img-top" alt="...">
+		 		 <div class="card-body">
+			    <h5 class="card-title">ForEach돌릴꺼양</h5>
+			    <p class="card-text">ForEach돌릴꺼양</p>
+			    <a href="#" class="btn btn-primary">Go somewhere</a>
+			  </div>
+			</div>
+    </div>
+    
+    </div>
+     </div>
+<script src="resources/js/jquery.js" ></script>
+<script src="resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

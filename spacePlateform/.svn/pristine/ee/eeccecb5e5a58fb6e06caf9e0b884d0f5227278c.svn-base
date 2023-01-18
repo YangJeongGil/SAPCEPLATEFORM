@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 	<!-- 테이블 명 변경 해야함
+ 		 test2 = category
+ 		 membertest = member
+ 		  -->
+<mapper namespace="com.bigdataB.space.mapper.adminMapper">
+	<select id="listCate" resultType="spaceTypeDTO">
+		select * from space_type
+	</select> 
+	
+	<insert id="insertCate" parameterType="spaceTypeDTO">
+		insert into space_type values(seq_space_type.nextval, #{cate_nm}, #{cate_img}, 0)
+	</insert>
+	
+	<select id="listHost" resultType="hostListDTO">
+		select m.member_nm, m.member_email, m.member_pw, m.member_reg_dt, m.member_pno, s.space_nm , s.space_comnum
+			from member m join space s on m.member_no = s.member_no where m.member_grade = 1
+	</select>
+	<select id="sortHost" parameterType="java.util.Map" resultType="hostListDTO">
+		select m.member_nm, m.member_email, m.member_pw, m.member_reg_dt, m.member_pno, s.space_nm , s.space_comnum
+			from member m join space s on m.member_no = s.member_no where m.member_grade = 1
+			order by ${column} ${sort}
+	</select>
+	
+	<select id="listGuest" parameterType="String" resultType="memberDTO">
+		select member_no, member_email, member_pw, member_nm, member_pno, member_reg_dt
+		 from member where member_grade = 0
+	</select>
+
+	<select id="sortGuest" parameterType="java.util.Map" resultType="memberDTO">
+		select member_no, member_email, member_pw, member_nm, member_pno, member_reg_dt
+		 from member where member_grade = 0
+			order by ${column} ${sort} 
+	</select>
+	
+	<select id="sortCate" parameterType="java.util.Map" resultType="spaceTypeDTO">
+		select cate_nm, cate_img
+			from space_type
+				order by cate_nm ${sort}
+	</select>
+		
+		
+	<!-- <select id="sortGuest" resultType="Object">
+        select * from member
+        <if test="pageable.sort.sorted">
+            <trim prefix="order by">
+                <foreach item="order" index="i" collection="pageable.sort" separator=", ">
+                    ${order.property} ${order.direction}
+                </foreach>
+            </trim>
+        </if>
+        limit ${pageable.size} offset ${pageable.page}*${pageable.size}
+    </select> -->
+		
+	<!-- 	
+	<select id="listHost" resultType="memberDTO">
+		select member_no, member_email, member_pw, member_nm, member_pno, member_reg_dt 
+		from member where member_grade = 1
+		
+		
+	</select> -->
+	
+	<select id="listSpaceRoom" resultType="spaceRoomDTO">
+		select * from space_room
+	</select>
+	
+	<select id="listReserve" resultType="reserveDTO">
+		select * from reserve
+	</select>
+</mapper>
